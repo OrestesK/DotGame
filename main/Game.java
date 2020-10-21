@@ -59,16 +59,23 @@ public class Game extends Canvas implements Runnable {
 		long timer = System.currentTimeMillis();
 		@SuppressWarnings("unused")
 		int frames = 0;
+		int bug = 0;
 		while (running) {
+			bug++;
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			while (delta >= 1) {
-				tick();
+				if (bug > 10) {
+					tick();
+				}
 				delta--;
+
 			}
 			if (running) {
-				render();
+				if (bug > 10) {
+					render();
+				}
 			}
 			frames++;
 			if (System.currentTimeMillis() - timer > 1000) {
@@ -85,17 +92,17 @@ public class Game extends Canvas implements Runnable {
 				handler, 20, 0, 0));
 		spawner = new Spawner(handler);
 		try {
-		    Robot robot = new Robot();
-		    robot.mouseMove((int)screenSize.getWidth()/2, (int)screenSize.getHeight()/2);
+			Robot robot = new Robot();
+			robot.mouseMove((int) screenSize.getWidth() / 2, (int) screenSize.getHeight() / 2);
 		} catch (AWTException e) {
 		}
 	}
 
 	private void tick() {
-			spawner.tick();
-			handler.tick();
-			hud.tick();
-			reset();
+		spawner.tick();
+		handler.tick();
+		hud.tick();
+		reset();
 	}
 
 	private void render() {
@@ -105,31 +112,21 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
-			super.paint(g);
-			handler.render(g);
-			hud.render(g);
+		super.paint(g);
+		handler.render(g);
+		hud.render(g);
 
 		g.dispose();
 		bs.show();
 	}
-	
+
 	private void reset() {
-		if(HUD.reset == true) {
+		if (HUD.reset == true) {
 			handler.clearEnemies();
 			HUD.reset = false;
 			Player.points = 0;
 			Game.gameState = STATE.Game;
 			startGame();
-		}
-	}
-
-	public static float clamp(float var, float min, float max) {
-		if (var >= max) {
-			return var = max;
-		} else if (var <= min) {
-			return var = min;
-		} else {
-			return var;
 		}
 	}
 
