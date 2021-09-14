@@ -37,7 +37,7 @@ public class HUD extends MouseAdapter {
 	public void gameOver(Graphics g) {
 		try {
 			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File(
-				"C:\\Users\\orest\\Documents\\GitHub\\DotGame\\font\\ClickerScript-Regular.ttf"))
+				System.getProperty("user.dir") + "\\font\\ClickerScript-Regular.ttf"))
 					.deriveFont(100f);
 
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
