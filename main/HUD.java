@@ -32,6 +32,7 @@ public class HUD extends MouseAdapter {
 	public void Points(Graphics g) {
 		g.setColor(Color.white);
 		g.drawString("Points: " + String.valueOf(Player.points), 20, 20);
+		g.drawString("HighScore: " + String.valueOf(Highscore.score), 20, 40);
 	}
 
 	public void gameOver(Graphics g) {
