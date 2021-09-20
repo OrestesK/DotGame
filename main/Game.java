@@ -18,11 +18,14 @@ public class Game extends Canvas implements Runnable {
 	private HUD hud;
 	private KeyInput keyInput;
 	private Spawner spawner;
+	private Highscore highScore;
+	private int temp = 0;
 
 	public Game() {
 		new Window("PolkaDotGame", this);
 		handler = new Handler();
 		keyInput = new KeyInput();
+		highScore = new Highscore();
 		hud = new HUD();
 		this.addKeyListener(keyInput);
 		this.addMouseListener(hud);
@@ -99,10 +102,15 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
-		spawner.tick();
-		handler.tick();
-		hud.tick();
-		reset();
+		if (temp == 0) {
+			try {
+				Thread.sleep(1000);
+				temp = 1;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				temp = 1;
+			}
+		}
 	}
 
 	private void render() {
@@ -124,6 +132,7 @@ public class Game extends Canvas implements Runnable {
 		if (HUD.reset == true) {
 			handler.clearEnemies();
 			HUD.reset = false;
+			highScore.updateScore();
 			Player.points = 0;
 			Game.gameState = STATE.Game;
 			startGame();
